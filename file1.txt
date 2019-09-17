@@ -1,3 +1,0 @@
-HelloWorld
-
-Python is the best for beginners
