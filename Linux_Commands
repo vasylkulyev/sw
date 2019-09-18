@@ -1,0 +1,205 @@
+lscpu === ПОКАЗАТЬ ПРОЦЕССОР
+man -k time === КОММАНДЫ СО ВРЕМЕНЕМ
+man uptime === help about uptime command
+
+whereis & locate === ИЩЕТ СИСТЕМНЫЕ ФАЙЛЫ
+
+ctrl + z === УБРАТЬ ПРОЦЕСС С ЭКРАНА
+fg === ВЕРНУТЬСЯ К БЕГУЩЕМУ ПРОЦЕССУ
+ls -la === ПОКАЗАТЬ СКРЫТЫЕ ДИРЕКТОРИИ
+cat & less & more === ПРОЛИСТАТЬ ФАЙЛЫ
+hello*.* === all files with hello
+cp file?.txt === any One sign on ? place
+
+
+ln -s <путь к оригиналу> <link_to_dir> === MAKE SYMBOLIC LINK
+ln file1.txt file1_duplicate.txt === MAKE FULL DUBLICATE
+
+
+find /home -name "*.txt" === ПОИСКАТЬ ВСЕ .txt ФАЙЛЫ В ДОМАШЕЙ ДИРЕКТОРИИ
+wc file.txt  === ПОСЧИТАТЬ КОЛ-ВО СЛОВ СТРОЧЕК БУКВ В ФАЙЛЕ
+sort file.txt === ОТСОРТИРОВАТЬ ПО АЛФАВИТУ
+sort -n file.txt === ОТСОРТИРОВАТЬ ЦИФРЫ ПО ВОЗРАСТАНИЮ
+cut -d ">" -f 3 file.txt === ВЫВЕСТИ ТРЕТИЙ ДЕЛИМЕТР
+
+grep some_word ./* === ИСКАТЬ some_word В ТЕКУЩЕЙ ДИРЕКТОРИИ
+grep -i some_word ./* === ИГНОРИРОВАТЬ маленькие или большие Буквы
+grep -E "[A-Za-z\.]*@[A-Za-z]*.com" file.txt === НАЙТИ В ФАЙЛЕ ВСЕ ИМЕЙЛЫ
+www\.[a-z]*\.com === ЛЮБОЙ ВЭБ АДРЕСС
+[A-Z]* === ЛЮБОЕ СЛОВО ИЗ БОЛЬШИХ БУКВ
+[0-9]* === СКОЛЬКО УГОДНО ПОДРЯД СТОЯЩИХ ЦИФР
+grep === ПОИСК ОПРЕДЕЛЕННОГО СЛОВА В ФАЙЛЕ
+
+
+/dev/null === ПЕРЕНАПРАВИТЬ В НИКУДА
+2> === СТРОЧКИ С ОШИБКАМИ ПЕРЕНАПРАВЛЯТЬ ПЕРЕЗАПИСАТЬ
+2>> === СТРОЧКИ С ОШИБКАМИ ДОБАВИТЬ
+
+
+tar cf mytar.tar Folder1 === СОЗДАТЬ АРХИВ
+tar cvf mytar.tar Folder1 === ПОДРОБНОЕ АРХИВИРОВАНИЕ
+rm -r Folder? === УДАЛИТЬ ВСЕ С НАЗВАНИЕМ Folder
+tar tf mytar.tar === ПОСМОТРЕТЬ ЧТО ВНУТРИ АРХИВА
+tar xvf mytar.tar === РАСПАКОВАТЬ АРХИВ
+gzip mytar.tar === СЖАТЬ АРХИВ
+gunzip mytar.tar.gz === РАЗЖАТЬ АРХИВ
+bzip2 mytar.tar === СИЛЬНОЕ СЖАТИЕ АРХИВА
+bunzip2 mytar.tar.bz2 === РАЗЖАТЬ АРХИВ
+xz mytar.tar OR unxz mytar.tar.xz === СЖАТЬ РАЗЖАТЬ АРХИВ
+tar cvzf mytar.gz Folder1 === СОЗДАТЬ И СЖАТЬ АРХИВ
+tar cvjf myBZIP2.bz2 Folder1 === СОЗДАТЬ И СЖАТЬ АРХИВ с помощью bzip2
+zip -r myzip.zip Folder1 === ЗАЗИПОВАТЬ
+unzip myzip.zip === РАЗЗИПОВАТЬ
+
+
+top: >> shift + P === ФИЛЬТР ПРО ПРОЦЕССОРУ 
+	shift + M === ФИЛЬТР ПО ПАМЯТИ
+ps -u user === ПОКАЗАТЬ ПРОЦЕССЫ ПОЛЬЗОВАТЕЛЯ
+ps -aux === ВСЕ ПРОЦЕССЫ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ
+/var/log === ХРАНЕНИЕ ЛОГОВ
+dmesg === ЛОГ ЛИНУКСОВОГО ЯДРА
+vi: >> i === начать редактирование	ESC === выход в командный режим
+	: === ввод команд	q === выйти	wq! === записать и выйти
+
+
+su   - сменить текушего пользователя
+/etc/passwd    - тут хранятся все аккаунты
+/etc/shadow   - тут хранятся все пароли аккаунтов
+/etc/group    - тут хранятся все группы
+whoami  - показать имя текущего пользователя
+id   - показать к каким группам принадлежит пользователь
+who – показать кто сейчас в системе
+w   - показать кто сейчас в системе и что делает
+last – показать последние логины
+
+
+USERS:
+sudo useradd -m user_name >> sudo passwd user_name === CREATE USER
+/etc/skel/ === СКЕЛЕТ ПРИ СОЗДАНИИ ПОЛЬЗОВАТЕЛЯ
+sudo userdel -r user_name === УДАЛИТЬ ПОЛЬЗОВАТЕЛЯ С ДОМ ДИРЕКТОРИЕЙ
+sudo groupadd group_name === CREATE GROUP
+sudo groupdel group_name === DELETE
+sudo usermod -aG group_name vasya === ДОБАВИТЬ vasya ПОЛЬЗОВАТЕЛЯ В ГРУППУ
+id user === SHOW GROUPS OF USER
+sudo deluser vasya group_name === УДАЛИТЬ ИЗ ГРУППЫ
+sudo chown user folder/ === СМЕНА ВЛАДЕЛЬЦА
+sudo chgrp group file.txt === СМЕНА ГРУППЫ
+chmod o+x file.txt === ДОБАВИТЬ Execute К ГРУППЕ Others
+chmod g-w file.txt === УБРАТЬ Writable У ГРУПП
+chmod a=r file.txt === ВСЕМ ДАТЬ ЧТЕНИЕ
+ugo === users group others
+chmod ugo=r file.txt === READ ONLY TO ALL
+r w x === 4 2 1
+sudo chmod o+t folder/ === ИСПОЛЬЗОВАТЬ "СТИКИ-БИТ" для OTHERS (для ДИРЕКТОРИЙ)
+sudo chmod o-t folder/ === УБРАТЬ "СТИКИ-БИТ" для OTHERS
+sudo chmod 1777 folder/ === ADD STICKY-BIT
+sudo chmod 0777 folder/ === REMOVE STICKY-BIT
+
+
+NETWORK:
+ip route show === SHOW IP and GATEWAY
+host google.com === IP address of google.com
+dig google.com === IP INFO of DOMAIN
+netstat === ИНФО О ТЕКУЩИХ СОЕДИНЕНИЯХ
+sudo ufw allow 22 === OPEN 22 PORT
+openssh-server === TO INSTALL SSH
+cat /etc/apt/sources.list === ПОСМОТРЕТЬ РЕПАЗИТОРИЙ
+
+sudo nano /etc/network/interfaces === WORK WITH INTERFACES (STATIC IP)
+	auto enp1s0
+	iface enp1s0 inet static
+	address 20.20.20.20
+	netmask 255.0.0.0
+	gateway 20.20.20.1
+	dns-nameservers 8.8.8.8
+sudo ifdown enp1s0 && ifup enp1s0 === restart interface
+
+sudo ifconfig enp1s0 1.1.1.1 netmask 255.0.0.0 === temporarely change IP
+
+service ssh start === ACTIVATE SSH SERVICE
+apt-get install openssh-server === INSTALL SSH SERVICE
+
+
+crontab -e: == /var/spool/cron/crontabs/user
+*/2 === каждые 2 минуты
+*/3 === каждые 3 минуты
+sudo nano /etc/crontab === CRONTAB СИСТЕМНЫЙ
+cat /var/log/syslog | grep CRON === ПОСМОТРЕТИ ЛОГИ ДЛЯ CRONTAB
+
+
+INSTALL:
+sudo dpkg -i package.deb === INSTALL PACKAGE
+sudo dpkg -r package === REMOVE PACKAGE
+
+
+!#/bin/bash : >> переменные:
+mycomputer="Asus tra ta ta 710"
+myOS=`uname -a` === все что выдаст эта команда залезет в переменную myOS
+num1=50
+num2=45
+summa=$((num1+num2))
+echo "$num1 + $num2 = $summa"
+$0 === название скрипта (файла)
+echo -n === не делать новой линии
+read -p "Please enter your name: " name === Сохранить ввод в переменную name
+$1 === первый параметр
+$2 === второй параметр
+$3 === третий параметр
+
+if [ "$1" == "Vasya" ]; then
+	echo "Privet $1"
+elif [ "$1" == "Trump" ]; then
+	echo "Hello $1"
+else echo "Zdarova $1"
+fi (так обязательно завершаем условия)
+
+WHILE : 
+COUNTER=0
+while [ $COUNTER -lt 10 ]; do
+	echo "Current counter is $COUNTER"
+	COUNTER=$(($COUNTER+1)) === пока COUNTER меньше 10 прибавлять по 1
+done
+
+FOR:
+for myfile in `ls *.txt ; do
+	cat $myfile === закинуть все файлы txt в myfile
+done
+ 
+RANGE от 1 до 10:
+for x in [1..10]; do
+	echo "X = $x" === вывести от 1 до 10
+done
+
+for (( i=1; i<=10; i++ )); do
+	echo "Nomer I = $i" === вывести от 1 до 10
+done
+
+FUNCTION:
+myfunction()
+{
+	echo "This is text from Function!!"
+	echo "First parametr is: $1"
+	echo "Second parametr is: $2"
+}
+
+myfunction 50 vasya === вызвать фунцию с параметрами
+
+
+ИНФОРМАЦИЯ О ДИСКАХ:
+lsblk === INFO OF DISKS
+cfdisk /dev/sda === WORK WITH PARTITIONS
+sudo mkfs.ntfs -f /dev/sdb1 === MAKE FORMATTING OF /sdb1 in NTFS
+
+nano /etc/fstab : === HERE INFO ABOUT DISKS
+/dev/sdb1 /media/hdd2 ntfs default 0 0 === mount during BOOT
+sudo mount /media/hdd2
+ln -s /media/hdd2/ ~/Desktop/HDD2 === MAKE LINK OF NEW DISK
+
+
+
+
+
+
+
+
+
