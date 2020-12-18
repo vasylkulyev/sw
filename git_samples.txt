@@ -1,0 +1,23 @@
+1) sudo apt install git
+   git config --global user.name "Vasyl Kulyev"
+   git config --global user.email "vk@vk.com"
+   git config -l ==== SHOW CONFIGURATION
+   /home/user/.gitconfig ==== LINUX CONFIG FILE
+
+2) mkdir project_name >>> cd project_name
+   git init . ==== MAKE GIT LOCAL REPOSITORY
+   git status
+   git add * ==== ADD ALL FILES TO GIT LOCAL REPOSITORY
+   git commit -m "add samples to repository" ==== MAKE COMMIT
+
+3) git log ==== HISTORY OF ALL COMMITS
+   git log -1 -p ==== SHOW LAT COMMIT
+   git checkout -- file_name.txt ==== DISCARD LAST CHANGE
+   git diff --staged ==== SHOW DIFFERNCE BETWEEN LAST COOMIT
+   nano .gitignore >>> name_of_files ==== TO IGNORE FILES OF COMMIT
+   git add .
+   git commit -m "added .gitignore file"
+   
+4) git clone https://github.com/vasylkulyev/sw.git ==== CLONE REPOSITORY
+   added files
+   git push origin ==== PUSH FILES TO REMOTE REPOSITORY
