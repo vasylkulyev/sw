@@ -21,3 +21,8 @@
 4) git clone https://github.com/vasylkulyev/sw.git ==== CLONE REPOSITORY
    added files
    git push origin ==== PUSH FILES TO REMOTE REPOSITORY
+
+5) ssh-keygen -f name_of_key ==== CREATE SSH KEY ON LOCAL MACHINE
+   go to GIT >>> Settings >>> SSH and GPG keys >>> New SSH key ==== KEY PUB
+   git remote -v ==== SHOW WHAT TYPE AUTHENTIFICATION USE
+   git remote set-url origin git@github.com:vasylkulyev/sw.git ==== CHANGE ACCESS TYPE OVER SSH
