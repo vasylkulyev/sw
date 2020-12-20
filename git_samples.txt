@@ -26,3 +26,11 @@
    go to GIT >>> Settings >>> SSH and GPG keys >>> New SSH key ==== KEY PUB
    git remote -v ==== SHOW WHAT TYPE AUTHENTIFICATION USE
    git remote set-url origin git@github.com:vasylkulyev/sw.git ==== CHANGE ACCESS TYPE OVER SSH
+
+6) git branch ==== SHOW BRANCHES
+   git branch branch_name ==== CREATE BRANCH
+   git checkout branch_name ==== TO MOVE TO BRANCH
+   git branch -d branch_name ==== DELETE BRANCH
+   git checkout -b branch_name ==== CREATE AND MOVE TO BRANCH
+   git merge branch_name ==== MERGE TWO BRANCHES
+
