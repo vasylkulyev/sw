@@ -34,3 +34,11 @@
    git checkout -b branch_name ==== CREATE AND MOVE TO BRANCH
    git merge branch_name ==== MERGE TWO BRANCHES
 
+7) git checkout f1a48990e8f7128f46dfcc9ea879d3c285e733d3 ==== RETURN TO ANY COMMIT
+   git checkout master ==== RETURN TO NORMAL COMMIT
+   git commit --amend ==== CHANGE LAST COMMIT VIA FILE
+   git reset --hard HEAD~ ==== RETURN TO LAST COMMIT
+   git reset --hard HEAD~3
+   git reset --soft HEAD~ ==== DELETE LAST COMMIT BUT SAFE FILE
+   
+8) 
