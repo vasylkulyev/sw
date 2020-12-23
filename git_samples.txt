@@ -41,4 +41,9 @@
    git reset --hard HEAD~3
    git reset --soft HEAD~ ==== DELETE LAST COMMIT BUT SAFE FILE
    
-8) 
+8) git push origin
+   git push --set-upstream origin wkd_sw ==== PUSH AND CREATE BRANCH ON GITHUB
+   git push origin --delete wkd_sw ==== DELETE REMOTE BRANCH
+   git pull ==== UPDATE LOCAL WITH REMOTE REPOSITORY
+
+
