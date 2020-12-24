@@ -29,7 +29,10 @@ jobs:
           echo "Hello Message1"
           echo "Hello Message2"
           echo "Hello Message3"
-          echo "Application name: ${{ env.APPLICATION_NAME }}"  
+          echo "Application name: ${{ env.APPLICATION_NAME }}"
+          
+      - name: List current folder
+        run: ls -la
   #Another job added
   my_deploy:
     runs-on: ubuntu-latest
