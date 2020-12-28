@@ -65,3 +65,12 @@ ansible windows -m win_ping --ask-pass ==== ЕСЛИ НЕТ СТРОЧКИ ansib
 
 8) Group_Vars
 mkdir group_vars >>> nano (файл с названием группы)
+
+9) ROLES
+mkdir roles >> cd roles >> ansible-galaxy init role_name
+  tasks - main list of tasks
+  handlers - put here your handlers
+  defaults - default variables for this role
+  vars - other variables for this role
+  files - files which must be copied
+  templates - files which must be GENERATED
