@@ -74,3 +74,7 @@ mkdir roles >> cd roles >> ansible-galaxy init role_name
   vars - other variables for this role
   files - files which must be copied
   templates - files which must be GENERATED
+
+10) extra-vars
+ansible-playbook playbook.yml --extra-var "MYHOSTS=PROD owner=VASYA"
+# === ЭТИ ПЕРЕМЕННЫЕ В ПЕРВУЮ ОЧЕРЕДЬ === #
