@@ -49,8 +49,8 @@ Manage Jenkins >> Jenkins CLI >> (НА ЛЮБОМ ХОСТЕ) >> wget http://15.
   java -jar jenkins-cli.jar -auth username:password -s http://15.24.1.77:8080 who-am-i === ПОДКЛЮЧАТЬСЯ К Jenkins
 Manage Jenkins >> Manage Users >> Create User  
   TOKEN >> choose User (логинимся от нужного пользователя) >> Configure >> API Token: Current token(s) >> Add new Token:
-      token-1 of my <kcm> === 1158efa9f36d11cb7fbfd666309d17023f === KCM TOKEN
-  java -jar jenkins-cli.jar -auth kcm:1158efa9f36d11cb7fbfd666309d17023f -s http://15.24.1.77:8080 who-am-i === ПОДКЛЮЧАТЬСЯ К Jenkins with TOKEN
+      token-1 of my <kcm> === 11111111111111111111111111111111 === KCM TOKEN
+  java -jar jenkins-cli.jar -auth kcm:111111111111111111111111111111111 -s http://15.24.1.77:8080 who-am-i === ПОДКЛЮЧАТЬСЯ К Jenkins with TOKEN
 
     СОЗДАЕМ ПЕРЕМЕННЫЕ JENKINS: 
   export JENKINS_USER_ID=kcm === EXPORT USERNAME
@@ -62,7 +62,7 @@ Manage Jenkins >> Manage Users >> Create User
     
  WINDOWS:
   $env:JENKINS_USER_ID="kcm"
-  $env:JENKINS_API_TOKEN="1158efa9f36d11cb7fbfd666309d17023f" === УСТАНОВИТЬ ПЕРЕМЕННЫЕ В POWERSHELL
+  $env:JENKINS_API_TOKEN="11111111111111111111111111111111111" === УСТАНОВИТЬ ПЕРЕМЕННЫЕ В POWERSHELL
   get-content Переход_на_1_Цех.xml | java -jar jenkins-cli.jar -s http://15.24.1.77:8080 create-job Переход_на_1_Цех === IMPORT Job
 
 
@@ -80,11 +80,11 @@ Manage Jenkins >> Manage Users >> Create User
 	Poll SCM (* * * * *) === START EVERY 1 Minute ЕСЛИ в GITHUB ПОЯВЛЯЮТСЯ КОММИТЫ 
 
     http://15.24.1.77:8080/job/Deplo-to-PRODUCTION/build?token=QuooMai7Aoje1AiG2ya7 === ПО ЭТОЙ ССЫЛКЕ ЗАПУСКАТЬ ДЖОБ ЕСЛИ ВОШЕЛ В СИСТЕМУ
-    	1195898a536585139f35fdca826c5163ee === TOKEN of WKD (Vasiliy)
-    curl http://wkd:1195898a536585139f35fdca826c5163ee@15.24.1.77:8080/job/Deplo-to-PRODUCTION/build?token=QuooMai7Aoje1AiG2ya7 === ЗАПУСКАТЬ ТОЛЬКО ЧЕРЕЗ ТЕРМИНАЛ
+    	11111111111111111111111111111111 === TOKEN of WKD (Vasiliy)
+    curl http://wkd:1111111111111111111111111111111@15.24.1.77:8080/job/Deplo-to-PRODUCTION/build?token=QuooMai7Aoje1AiG2ya7 === ЗАПУСКАТЬ ТОЛЬКО ЧЕРЕЗ ТЕРМИНАЛ
     
     !!! Trigger from GitHub and start JOB:
-           Install Plugin = GitHub >> Configure JOB >> GitHub project:(Project url > git@github.com:sevastopol-winery/lol.git) >> GitHub hook trigger for GITScm polling || go to GitHub (repository) >> Settings >> Webhooks >> Payload URL: http://185.153.134.144:4868/github-webhook/  >> Content type: application/json >> Which events would you like to trigger this webhook?: Commit === КОГДА ПРОИСХОДИТ КОММИТ ТО ЗАПУСКАЕТСЯ ДЖОБ !!! 
+           Install Plugin = GitHub >> Configure JOB >> GitHub project:(Project url > git@github.com:repository/lol.git) >> GitHub hook trigger for GITScm polling || go to GitHub (repository) >> Settings >> Webhooks >> Payload URL: http://185.153.134.144:4868/github-webhook/  >> Content type: application/json >> Which events would you like to trigger this webhook?: Commit === КОГДА ПРОИСХОДИТ КОММИТ ТО ЗАПУСКАЕТСЯ ДЖОБ !!! 
 
 14) PARAMETERS: 
   Configure >> This project is parameterized: String Parameter: something ( использовать в скрипте = $something ) ===  ИЗМЕНЯЮЩАЯСЯ ПЕРЕМЕННАЯ
