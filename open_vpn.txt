@@ -1,0 +1,35 @@
+cd /etc/openvpn
+
+------------------------------------------------------------------
+
+openvpn.net/vpn-software-packages/ ==== AND CHOOSE OS
+----------------------------------------------------------------------------------------
+INSTALLATION ON SERVER:
+
+apt update && apt -y install ca-certificates wget net-tools gnupg
+
+wget -qO - https://as-repository.openvpn.net/as-repo-public.gpg | apt-key add -
+
+echo "deb [arch=amd64] http://as-repository.openvpn.net/as/debian xenial main">/etc/apt/sources.list.d/openvpn-as-repo.list
+
+apt update && apt -y install openvpn-as
+----------------------------------------------------------------------------------------
+configuration here: https://192.168.1.106:943/admin
+Client UI: https://192.168.1.106:943/
+/usr/local/openvpn_as/init.log ==== LOG File Information
+/usr/local/openvpn_as/bin/ovpn-init ==== Configure it from Terminal
+
+openvpn : password
+CONFIGURATION >> Network Settings >> Hostname or IP Address:(OUR PUBLIC ADDRESS HERE)
+CONFIGURATION >> VPN Settings >> Dynamic IP Address Network (YOUR NETWORK) >> Routing (what network to give access in)
+Save Settings >> Update Running Server
+
+USER MANAGEMENT >> User Permissions >> CREATE USERS
+----------------------------------------------------------------------------------------
+CONNECTION TO SERVER: (from remote HOST)
+https://192.168.1.106:943 >> Enter USER Permissions
+Go to Link ( Yourself (user-locked profile) ) and download it to your HOST to ( /etc/openvpn )
+apt-get update && apt-get install openvpn ==== OpenVPN CLIENT Installation
+openvpn --config client.ovpn ==== START OpenVPN CLIENT
+
+
