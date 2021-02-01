@@ -1,0 +1,137 @@
+###Install Jenkins:
+1) Install Java >>> sudo apt-get install openjdk-8-jre
+2) Install Jenkins >>> 
+	wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+	sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+	sudo apt-get update
+	sudo apt-get install jenkins
+
+        ip-address:8080 >> cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Ключи: создаем ключи на мастере и делаем ssh-copy-id на остальные сервера к которым хотим подключаться с Jenkins и в Jenkins добавляем ключ Private мастера.
+
+Manage Jenkins:
+1) Configure System >> # of executors === КОЛ-ВО ПРОЦЕССОВ
+   Quiet period === КОГДА ДЖОБ НАЧИНАЕТ БЕЖАТЬ
+   Environment variables === СОЗДАНИЕ ДОПОЛНИТЕЛЬНЫХ ПЕРЕМЕННЫХ
+
+2) Jenkins CLI === УПРАВЛЯТЬ ЧЕРЕЗ ТЕРМИНАЛ
+3) Manage Nodes === ДОБАВЛЕНИЕ СЕРВЕРОВ СЛЕЙВОВ
+
+4) plugins:
+	Credentials ===  СОХРАНЯТЬ КРЕДЕНШИЛЫ В СИСТЕМЕ
+	Git
+	Green Balls === ЗЕЛЕНЫЕ ШАРИКИ
+	ChuckNorris === ЕСЛИ ХОТИМ КАРТИНКУ В НИЖНЕМ ПРАВОМ УГЛУ
+
+5) Configure job >> Execute concurrent builds if necessary === ВЫПОЛНЯТЬ СРАЗУ НЕСКОЛЬКО ДЖОБОВ
+   Configure >> Discard old builds === УДАЛЯТЬ СТАРЫЕ БИЛДЫ
+
+6) Post-build Actions >> E-mail Notification === ОТПРАВИТЬ ПОЧТУ ПО ЗАВЕРШЕНИЮ ДЖОБА
+
+7) Install Plugin - Publish Over SSH === СОЕДИНЕНИЕ С ДРУГИМ СЕРВЕРОМ
+   Manage Jenkins » Configure System » Publish over SSH » Key (вставляем Private ssh ключ) » Add === НАСТРОИТЬ SSH СЕРВЕР  
+   Configure Job » Add build step » Send files or execute commands over SSH >> Send build artifacts over SSH:
+	/*           === ЗАГРУЗИТЬ ВСЕ ФАЙЛЫ КОТОРЫЕ В ДЖОБЕ
+	Exec command ===  ВЫПОЛНИТЬ ПОСЛЕ ЗАВЕРШЕНИЯ
+
+8) sudo visudo >> wkd ALL = NOPASSWD: /bin/systemctl restart httpd.service, /bin/kill >> $USER ALL=(ALL) NOPASSWD: ALL
+
+9) ### wkd ALL = NOPASSWD: /bin/systemctl restart aggregation-server.service, /bin/rm, /bin/cp, /bin/sed ###
+
+10) Jenkins SLAVES/NODES:
+	Plugin >> SSH Agent >> SSH Slaves === ДОБАВЛЕНИЕ АГЕНТОВ ЧЕРЕЗ SSH
+	Manage Jenkins >> Manage Nodes >> New Node: Permanent Agent >> Remote root directory >> Labels (обязательно) >> 		Credentials >> Add >> SSH Username with private key >> ID (название ключа) >> Host Key Verification Strategy 			Manually trusted key Verification >> Save
+	Configure Job >> Restrict where this project can be run >> ВЫПОЛНЕНИЕ ДЖОБОВ НА SLAVE СЕРВЕРЕ
+
+11) CLI Jenkins:
+Manage Jenkins >> Jenkins CLI >> (НА ЛЮБОМ ХОСТЕ) >> wget http://15.24.1.77:8080/jnlpJars/jenkins-cli.jar
+  java -jar jenkins-cli.jar -auth username:password -s http://15.24.1.77:8080 who-am-i === ПОДКЛЮЧАТЬСЯ К Jenkins
+Manage Jenkins >> Manage Users >> Create User  
+  TOKEN >> choose User (логинимся от нужного пользователя) >> Configure >> API Token: Current token(s) >> Add new Token:
+      token-1 of my <kcm> === 11111111111111111111111111111111 === KCM TOKEN
+  java -jar jenkins-cli.jar -auth kcm:111111111111111111111111111111111 -s http://15.24.1.77:8080 who-am-i === ПОДКЛЮЧАТЬСЯ К Jenkins with TOKEN
+
+    СОЗДАЕМ ПЕРЕМЕННЫЕ JENKINS: 
+  export JENKINS_USER_ID=kcm === EXPORT USERNAME
+  export JENKINS_API_TOKEN=1158efa9f36d11cb7fbfd666309d17023f === EXPORT TOKEN
+	env === SHOW ENVIRONMENT VARIABLES
+  java -jar jenkins-cli.jar -s http://15.24.1.77:8080 who-am-i === ПОДКЛЮЧАТЬСЯ К Jenkins with CREATED VARIABLES
+  java -jar jenkins-cli.jar -s http://15.24.1.77:8080 get-job Внести_продукцию > Внести_продукцию.xml === EXPORT
+  java -jar jenkins-cli.jar -s http://15.24.1.77:8080 create-job Вносим_продукцию_2_Цех < Вносим_продукцию_2_Цех.xml === IMPORT Job
+    
+ WINDOWS:
+  $env:JENKINS_USER_ID="kcm"
+  $env:JENKINS_API_TOKEN="11111111111111111111111111111111111" === УСТАНОВИТЬ ПЕРЕМЕННЫЕ В POWERSHELL
+  get-content Переход_на_1_Цех.xml | java -jar jenkins-cli.jar -s http://15.24.1.77:8080 create-job Переход_на_1_Цех === IMPORT Job
+
+
+12) GIT: git clone >> git status >> git add . >> git commit -m "ttt" >> git push === ПРИВЯЗАТЬ ГИТ И СДЕЛАТЬ ПУШ В ГИТХАБ
+    Ключи: связь GitHub with JENKINS: создаем два ключа и закидываем Private на Jenkins, а Public на GitHub
+    
+    Choose JOB >> Configure >> Source Code Management: GIT >> Use SSH URL >> Credentials: Add >> Kind: SSH with Key >> Username of GITHUB >> вставить Private KEY === СВЯЗАТЬ GIT c JENKINS
+
+    sudo sh -c "cat user.file >> root.file" === ДОБАВИТЬ СОДЕРЖИМОЕ пользователя в РУТ ФАЙЛ
+    
+13) Build Triggers:
+	Trigger builds remotely (e.g., from scripts) === ЗАПУСК БИЛДА ПО ССЫЛКЕ
+        Build after other projects are built === ЗАПУСК ПОСЛЕ ПРЕДЫДУЩЕГО БИЛДА
+	Build periodically (H/2 * * * *) === ЗАПУСКАТЬ КАЖДЫЕ 2 МИНУТЫ
+	Poll SCM (* * * * *) === START EVERY 1 Minute ЕСЛИ в GITHUB ПОЯВЛЯЮТСЯ КОММИТЫ 
+
+    http://15.24.1.77:8080/job/Deplo-to-PRODUCTION/build?token=QuooMai7Aoje1AiG2ya7 === ПО ЭТОЙ ССЫЛКЕ ЗАПУСКАТЬ ДЖОБ ЕСЛИ ВОШЕЛ В СИСТЕМУ
+    	11111111111111111111111111111111 === TOKEN of WKD (Vasiliy)
+    curl http://wkd:1111111111111111111111111111111@15.24.1.77:8080/job/Deplo-to-PRODUCTION/build?token=QuooMai7Aoje1AiG2ya7 === ЗАПУСКАТЬ ТОЛЬКО ЧЕРЕЗ ТЕРМИНАЛ
+    
+    !!! Trigger from GitHub and start JOB:
+           Install Plugin = GitHub >> Configure JOB >> GitHub project:(Project url > git@github.com:repository/lol.git) >> GitHub hook trigger for GITScm polling || go to GitHub (repository) >> Settings >> Webhooks >> Payload URL: http://185.153.134.144:4868/github-webhook/  >> Content type: application/json >> Which events would you like to trigger this webhook?: Commit === КОГДА ПРОИСХОДИТ КОММИТ ТО ЗАПУСКАЕТСЯ ДЖОБ !!! 
+
+14) PARAMETERS: 
+  Configure >> This project is parameterized: String Parameter: something ( использовать в скрипте = $something ) ===  ИЗМЕНЯЮЩАЯСЯ ПЕРЕМЕННАЯ
+	Choice Parameter === ВЫБРАТЬ В ВЫПАДАЮЩЕМ МЕНЮ
+	File Parameter === МОЖНО ДЕЛАТЬ UPLOAD ФАЙЛА НА СЕРВЕР
+
+15) AWS Amazon:
+   Services >> Elastic Beanstalk >> Get started >> Create a web app > Platform: PHP > Sample application > Configure more options >> Configuration presets: High availability >> Capacity: Instances: 2 > Scaling triggers: Metric: CPUUtilization > Unit: Percent > Upper threshold: 80 > Lower threshold: 20 >> Rolling updates and deployments: Deployment policy: Rolling > Rolling update type: Rolling based on Health === ВОТ ТАК СОЗДАЕМ ПРИЛОЖЕНИЕ НА AWS
+
+   IAM (зеленый ключик в амазоне) === СДЕЛАТЬ ПОЛЬЗОВАТЕЛЯ ДЛЯ Jenkins
+   IAM >  IAM Resources: Users > Add user > Access type: Programmatic access > Attach existing policies: AWS Elastic BeanStalk FullAccess (выбрать в списке) [ Access key ID:AKIASW7MQZJNTAXBJ6M2 ]  [ Secret access key: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 ]
+
+   15.1) GitHub:
+      1) в папке где находится php код:
+          git init >> git remote add origin https://github.com/vasylkulyev/php-app-for-jenkins.git >> git status >> git add . >> git commit -m >> git push === ОТПРАВИТЬ КОД В РЕПАЗИТОРИЙ
+   15.2) Jenkins:
+          Install Plugin - AWS Elastic Beanstalk Deployment >> GitHub project: Project url: https://github.com/vasylkulyev/php-app-for-jenkins > Git: git@github.com:vasylkulyev/php-app-for-jenkins.git > GitHub hook trigger for GITScm polling > Build: AWS Elastic Beanstalk > Credentials: Add: Kind: AWS Credentials > Validate Credentials > Application and Environment > Root Object (File / Directory): . > Version Label Format: Jenkins-Build-${BUILD-ID} > 
+          
+16) Обнуление счетчика Jenkins Build:
+      Manage Jenkins > Script Console:
+		"ls -la".execute().text	  === ПРОСМОТРЕТЬ ROOT Директорию	
+		"cat /etc/passwd".execute().text === ПРОСМОТРЕТЬ ФАЙЛ
+		new File('/etc/passwd').text     === ПРОСМОТРЕТЬ ФАЙЛ
+		new File("${Jenkins.instance.root}/credentials.xml").text === ПРОСМОТР Credentials
+		Jenkins.instance.metaClass.methods*.name === ПРОСМОТРЕТЬ ВСЕ КОМАНДЫ
+		Jenkins.instance.setNumExecutors(5) === УСТАНОВИТЬ 5 ВЫПОЛНИТЕЛЕЙ ДЛЯ ДЖОБА
+
+---------------------------------------------------------------------------------	
+	job = Jenkins.instance.getItemByFullName("The_Name_Of_The_Build")
+	job.builds.each() { build ->
+	  build.delete()
+	}
+	job.updateNextBuildNumber(1) === ОБНУЛЕНИЕ СЧЕТЧИКОВ БИЛДА
+---------------------------------------------------------------------------------
+
+17) Role-based Authorization Strategy === PLUGIN ДЛЯ РАЗГРАНИЧЕНИЯ ПРАВ
+
+/var/lib/docker/volumes/myjenkins/_data === ОБНОВЛЕНИЕ Jenkins
+
+===========================================================================
+Scripting:
+"ls -la".execute().text ==== ПРОСМОТРЕТЬ ROOT Директорию
+
+
+===========================================================================
+
+
+
+
+
