@@ -1,0 +1,50 @@
+adduser ==== CREATE USER
+vi /etc/rc.conf >>> MAKE SOME CHANGES IN FILE
+	sshd_enable="YES"
+/etc/rc.d/sshd start ==== START SSH SERVICE
+
+portsnap fetch ==== FETCH PORT COLLECTION
+portsnap extract
+portsnap fetch update
+--------------------------------------------------------------------------------------------
+
+pkg install mc ==== MC INSTALL
+zpool status ==== RAID STATUS
+zpool create storage ada2 ada3 ==== CREATE NEW POOL WITH HDD'S
+
+pkg instal samba413 ==== INSTALL SAMBA SERVER
+pkg search samba ==== CHECK AVAILABILITY FOR INSTALLATION
+
+cd /usr/local/etc
+edit smb4.conf ==== CREATE FILE IN EDITOR
+[global]
+	workgroup = WORKGROUP
+	server string = Samba Server
+	log file = /var/log/samba/log.%m
+	max log size = 500
+	map to guest = Bad Password
+
+[storage]
+	path = /home/wkd/storage
+	comment = obmennik
+	writable = yes
+	public = yes
+	browseable = yes #РАСШАРЕННАЯ ПАПКА НЕ СКРЫТАЯ, а <no> СКРЫТАЯ
+	create mask = 0777
+	directory mask = 0777 #ПОЛНЫЕ ПРАВА НА КАТАЛОГИ
+-----------------------------------------------------------------------------------------------
+
+edit /etc/rc.conf #ГЛАВНЫЙ СТАРТОВЫЙ СКРИПТ
+samba_server_enable="YES" #ВПИСЫВАЕМ СТРОЧКУ ЧТОБЫ ВКЛЮЧИТЬ SAMBA
+ifconfig_em0="DHCP" #DHCP Получение настроек
+ifconfig_em0="inet 192.168.54.135/24" #STATIC Адрес
+defaultrouter="192.168.54.1" #SET ROUTER ADDRESS
+mkdir /var/log/samba #СОЗДАТЬ ДИРЕКТОРИЮ ДЛЯ ЛОГОВ
+chmod 777 samba #ДАТЬ ПОЛНЫЕ ПРАВА
+chmod 777 /home/wkd/storage #ПОЛНЫЕ ПРАВА НА ОБМЕННИК
+sh /usr/local/etc/rc.d/samba_server restart #RESTART SERVICE
+
+
+
+
+
